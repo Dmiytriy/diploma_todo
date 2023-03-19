@@ -17,14 +17,14 @@ services:
       interval: 3s
 
   api:
-    image: pestich/diploma_skypro
+    image: pestich/diploma_skypro:latest
     env_file: .env
     depends_on:
       db:
         condition: service_healthy
 
   collect_static:
-    image: pestich/diploma_skypro
+    image: pestich/diploma_skypro:latest
     env_file: .env
     entrypoint: ''
     volumes:

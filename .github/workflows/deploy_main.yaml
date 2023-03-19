@@ -49,3 +49,22 @@ jobs:
           source: "deploy/*"
           target: "diploma_skypro"
           strip_components: 1
+      - name: Compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd diploma_skypro
+            docker-compose pull
+            docker-compose up -d
+      - name: Clear up after deployment
+        if: always()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker system prune -a -f
