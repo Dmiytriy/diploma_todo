@@ -48,66 +48,24 @@ class LoginSerializer(serializers.ModelSerializer):
         return user
 
 
-# class ProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'first_name', 'last_name', 'email')
-#
-#
-# class UpdatePasswordSerializer(serializers.Serializer):
-#     old_password = PasswordField(required=True)
-#     new_password = PasswordField(required=True)
-#
-#     def validate_old_password(self, value):
-#         if not self.instance.check_password(value):
-#             raise ValidationError({'old_password': 'Password is incorrect.'})
-#         return value
-#
-#     def update(self, instance: User, validated_data: dict) -> User:
-#         instance.set_password(validated_data['new_password'])
-#         instance.save(update_fields=('password',))
-#         return instance
-#
-#     def create(self, validated_data):
-#         raise NotImplementedError
-#
-#
-# class TgUserConnectSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = TgUser
-#         fields = '__all__'
-#         read_only_fields = ('id', 'user')
-#
-#
-# class TgUserRelatedField(HyperlinkedRelatedField):
-#     """
-#     needed to make delete possible with tg_user in request params.
-#     """
-#     lookup_field = 'tg_user'
-#
-#
-# class TgUserDeleteSerializer(serializers.HyperlinkedModelSerializer):
-#     serializer_related_field = TgUserRelatedField
-#
-#     class Meta:
-#         model = TgUser
-#         fields = '__all__'
-#
-#
-# class TgUserSerializer(serializers.ModelSerializer):
-#     """
-#     This is a PATCH, thus it does not work with HiddenField for some reason (commented out below).
-#     Have to use self.context.user
-#     """
-#     # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-#
-#     class Meta:
-#         model = TgUser
-#         fields = '__all__'
-#         read_only_fields = ('id',)  # 'user')
-#
-#     def update(self, instance, validated_data):
-#         user = self.context['request'].user
-#         instance.user = user
-#         instance.save()
-#         return instance
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')
+
+
+class UpdatePasswordSerializer(serializers.Serializer):
+    old_password = PasswordField(required=True)
+    new_password = PasswordField(required=True)
+
+    def validate_old_password(self, old_password):
+        if not isinstance(self.instance, User):
+            raise NotImplementedError
+        if not self.instance.check_password(old_password):
+            raise ValidationError({'old_password': 'Password is incorrect.'})
+        return old_password
+
+    def update(self, instance: User, validated_data: dict) -> User:
+        instance.set_password(validated_data['new_password'])
+        instance.save(update_fields=('password',))
+        return instance
