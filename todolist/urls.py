@@ -20,11 +20,14 @@ from django.urls import path, include
 urlpatterns = [
     path('core/', include(('todolist.core.urls', 'todolist.core'))),
     path('admin/', admin.site.urls),
+    path('oauth/', include('social_django.urls', namespace='social')),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += [
-        # static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
         path('api-auth/', include('rest_framework.urls')),
     ]
+
+
+#60minut

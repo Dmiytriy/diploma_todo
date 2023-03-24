@@ -4,13 +4,13 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
-from .views import SignUpView
+from .views import SignUpView, LoginView, ProfileView
 
 urlpatterns = [
     path('signup', SignUpView.as_view(), name='signup'),
-    path('login', views.LoginView.as_view(), name='login'),
-    # path('profile', views.ProfileView.as_view(), name='profile'),
-    # path('update_password', views.UpdatePasswordView.as_view(), name='update_password'),
+    path('login', LoginView.as_view(), name='login'),
+    path('profile', ProfileView.as_view(), name='profile'),
+    path('update_password', views.UpdatePasswordView.as_view(), name='update_password'),
 ]
 
 # if settings.DEBUG:
