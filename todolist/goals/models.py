@@ -51,3 +51,13 @@ class Goal(BaseModel):
 
     def __str__(self):
         return self.title
+
+
+class GoalComment(BaseModel):
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='Comments', verbose_name='Автор')
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE, related_name='Comments', verbose_name='Цель')
+    text = models.TextField(verbose_name='Комментарий')
