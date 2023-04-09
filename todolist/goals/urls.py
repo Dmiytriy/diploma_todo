@@ -3,6 +3,10 @@ from django.urls import path
 from todolist.goals import views
 
 urlpatterns = [
+    path('board/create', views.BoardCreateView.as_view(), name='create-board'),
+    path('board/list', views.BoardListView.as_view(), name='board-list'),
+    path('board/<int:pk>', views.BoardView.as_view(), name='board'),
+
     path('goal_category/create', views.GoalCategoryCreateView.as_view(), name='create-category'),
     path('goal_category/list', views.GoalCategoryListView.as_view(), name='category-list'),
     path('goal_category/<int:pk>', views.GoalCategoryView.as_view(), name='category-details'),
