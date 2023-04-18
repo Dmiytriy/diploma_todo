@@ -15,6 +15,7 @@ services:
       timeout: 3s
       retries: 10
       interval: 3s
+    restart: always
 
   api:
     image: pestich/diploma_skypro:latest
@@ -22,6 +23,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: always
 
   bot:
     image: pestich/diploma_skypro:latest
@@ -29,7 +31,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: always
     command: python3 manage.py runbot
+
 
   collect_static:
     image: pestich/diploma_skypro:latest
@@ -51,6 +55,7 @@ services:
     volumes:
       - django_static:/usr/share/nginx/html/static/
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: always
 
 volumes:
   diploma_pg_data:
