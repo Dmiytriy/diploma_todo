@@ -23,6 +23,14 @@ services:
       db:
         condition: service_healthy
 
+  bot:
+    image: pestich/diploma_skypro:latest
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: python manage.py runbot
+
   collect_static:
     image: pestich/diploma_skypro:latest
     env_file: .env
@@ -32,7 +40,7 @@ services:
     command: python3 manage.py collectstatic -c --no-input
 
   frontend:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - "80:80"
     depends_on:
